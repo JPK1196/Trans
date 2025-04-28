@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Telugu ⇄ Hindi Chat</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #222; color: white; }
+        #chat { max-width: 600px; margin: 20px auto; }
+        #messages { list-style-type: none; padding: 0; }
+        #messages li { padding: 8px; margin-bottom: 10px; border-radius: 5px; max-width: 70%; }
+        .you { background-color: #dcf8c6; color: black; text-align: right; margin-left: auto; }
+        .friend { background-color: #f1f0f0; color: black; text-align: left; margin-right: auto; }
+        #form { display: flex; margin-top: 10px; }
+        #input { flex-grow: 1; padding: 10px; }
+        #send { padding: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="chat">
+    <h2 style="text-align:center;">🟢 Telugu ⇄ Hindi Chat</h2>
+    <div style="margin-bottom: 10px; text-align:center;">
+        <label>Select your language:</label><br>
+        <select id="languageSelect">
+            <option value="te">Telugu (తెలుగు)</option>
+            <option value="hi">Hindi (हिन्दी)</option>
+        </select>
+        <button onclick="joinChat()">Join Chat</button>
+    </div>
+
+    <ul id="messages"></ul>
+
+    <form id="form" onsubmit="sendMessage(event)">
+        <input id="input" autocomplete="off" placeholder="Type a message..." /><button id="send">Send</button>
+    </form>
+</div>
+
+<script>
+    const socket = io();
+
+    function joinChat() {
+        const language = document.getElementById('languageSelect').value;
+        socket.emit('join', { language: language });
+        document.getElementById('languageSelect').disabled = true;
+    }
+
+    socket.on('receive_message', function(data) {
+        const item = document.createElement('li');
+        item.textContent = data.message;
+        item.className = data.sender === 'you' ? 'you' : 'friend';
+        document.getElementById('messages').appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    function sendMessage(e) {
+        e.preventDefault();
+        const input = document.getElementById('input');
+        if (input.value) {
+            socket.emit('send_message', { message: input.value });
+            input.value = '';
+        }
+    }
+</script>
+
+</body>
+</html>
