@@ -28,8 +28,8 @@ def handle_join(data):
     user_languages[user_id] = user_language
     print(f"User {user_id} joined with language {user_language}")
 
-def is_english(text):
-    return re.match(r'^[\x00-\x7F]+$', text) is not None
+# def is_english(text):
+    # return re.match(r'^[\x00-\x7F]+$', text) is not None
 
 def smart_translate(message, src_lang, dest_lang):
     # if is_english(message):
@@ -46,15 +46,24 @@ def handle_message(data):
     sender_language = user_languages.get(sender_id, 'en')  # default to English
     message = data['message']
 
+    # for user_id, target_language in user_languages.items():
+    #     if user_id == sender_id:
+    #         emit('receive_message', {'message': message, 'sender': 'you'}, room=user_id)
+    #     else:
+    #         if is_english(message):
+    #             translated = message
+    #         else:
+    #             translated = smart_translate(message, src_lang=sender_language, dest_lang=target_language)
+    #         emit('receive_message', {'message': translated, 'sender': 'friend'}, room=user_id)
+
+    
     for user_id, target_language in user_languages.items():
         if user_id == sender_id:
             emit('receive_message', {'message': message, 'sender': 'you'}, room=user_id)
         else:
-            if is_english(message):
-                translated = message
-            else:
                 translated = smart_translate(message, src_lang=sender_language, dest_lang=target_language)
             emit('receive_message', {'message': translated, 'sender': 'friend'}, room=user_id)
+            
 
 if __name__ == '__main__':
     print("🔥 Running at http://127.0.0.1:5000")
