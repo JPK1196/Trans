@@ -61,7 +61,7 @@ def handle_message(data):
         if user_id == sender_id:
             emit('receive_message', {'message': message, 'sender': 'you'}, room=user_id)
         else:
-                translated = smart_translate(message, src_lang=sender_language, dest_lang=target_language)
+            translated = smart_translate(message, src_lang=sender_language, dest_lang=target_language)
             emit('receive_message', {'message': translated, 'sender': 'friend'}, room=user_id)
             
 
