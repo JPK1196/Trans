@@ -28,10 +28,11 @@ def smart_translate(message, src_lang, dest_lang):
     if is_english(message):
         return message
     try:
-        translated_message = translator.translate(message, src=src_lang, dest=dest_lang).text
+        translated_message = translator.translate(message, dest=dest_lang).text
         return translated_message
     except Exception as e:
         return "[Translation failed]"
+
 
 
 @socketio.on('send_message')
