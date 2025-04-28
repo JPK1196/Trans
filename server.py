@@ -28,10 +28,13 @@ def smart_translate(message, src_lang, dest_lang):
     if is_english(message):
         return message
     try:
+        # Allow Google to auto-detect the language
         translated_message = translator.translate(message, dest=dest_lang).text
         return translated_message
     except Exception as e:
+        print(f"Error during translation: {e}")  # Log the error for debugging
         return "[Translation failed]"
+
 
 
 
