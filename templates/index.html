@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Telugu ⇄ Hindi Chat</title>
+    <title>Multilingual Chat</title>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #222; color: white; }
@@ -19,12 +19,14 @@
 <body>
 
 <div id="chat">
-    <h2 style="text-align:center;">🟢 Telugu ⇄ Hindi Chat</h2>
+    <h2 style="text-align:center;">🟢 Multilingual Chat</h2>
     <div style="margin-bottom: 10px; text-align:center;">
         <label>Select your language:</label><br>
         <select id="languageSelect">
-            <option value="te">Telugu (తెలుగు)</option>
-            <option value="hi">Hindi (हिन्दी)</option>
+            <!-- Dynamic language options -->
+            {% for lang in languages %}
+                <option value="{{ lang }}">{{ lang | capitalize }}</option>
+            {% endfor %}
         </select>
         <button onclick="joinChat()">Join Chat</button>
     </div>
