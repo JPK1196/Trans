@@ -32,8 +32,8 @@ def is_english(text):
     return re.match(r'^[\x00-\x7F]+$', text) is not None
 
 def smart_translate(message, src_lang, dest_lang):
-    if is_english(message):
-        return message
+    # if is_english(message):
+    #     return message
     try:
         translated_message = translator.translate(message, src=src_lang, dest=dest_lang).text
         return translated_message
